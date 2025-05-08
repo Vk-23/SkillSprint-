@@ -1,46 +1,251 @@
-
-<!-- Dashboard Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillSprint - Dashboard</title>
-
+    <title>EduLearn Dashboard</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>SkillSprint</h1>
-    </header>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="challenges.html">Challenges</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="leaderboard.html">Leaderboard</a>
-    </nav>
-    
     <div class="container">
-        <h2>My Dashboard</h2>
-        
-        <div class="dashboard-section">
-            <h3>Joined Challenges</h3>
-            <div class="empty-state">
-                <p>You haven't joined any challenges yet.</p>
-                <p>Visit the <a href="challenges.html">Challenges</a> page to get started!</p>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                Edu<span>Learn</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> My Courses</a></li>
+                <li><a href="#"><i class="fas fa-tasks"></i> Assignments</a></li>
+                <li><a href="#"><i class="fas fa-calendar"></i> Schedule</a></li>
+                <li><a href="#"><i class="fas fa-message"></i> Messages</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Progress</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+            <div class="user-section">
+                <div class="avatar">JS</div>
+                <div class="user-info">
+                    <div class="user-name">Student Name</div>
+                    <div class="user-role">Student</div>
+                </div>
             </div>
         </div>
-        
-        <div class="dashboard-section">
-            <h3>Progress Overview</h3>
-            <div class="empty-state">
-                <p>No progress data available.</p>
-                <p>Join a challenge to track your progress!</p>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon courses-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>5</h3>
+                        <p>Active Courses</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon assignments-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>7</h3>
+                        <p>Pending Assignments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon progress-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>78%</h3>
+                        <p>Overall Progress</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="two-column">
+                <!-- Courses Section -->
+                <div class="courses-section">
+                    <div class="section-title">
+                        <h2>My Courses</h2>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="course-cards">
+                        <div class="course-card">
+                            <div class="course-img" style="background-color: #e3f2fd;">
+                                <i class="fas fa-laptop-code" style="color: #1976d2;"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="course-title">Introduction to Web Development</h3>
+                                <div class="course-details">
+                                    <span>12 Lessons</span>
+                                    <span>65% Complete</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-color: #fff8e1;">
+                                <i class="fas fa-square-root-alt" style="color: #ff9800;"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="course-title">Advanced Mathematics</h3>
+                                <div class="course-details">
+                                    <span>15 Lessons</span>
+                                    <span>42% Complete</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 42%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-color: #e8f5e9;">
+                                <i class="fas fa-flask" style="color: #388e3c;"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="course-title">Chemistry 101</h3>
+                                <div class="course-details">
+                                    <span>10 Lessons</span>
+                                    <span>90% Complete</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 90%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-img" style="background-color: #ffebee;">
+                                <i class="fas fa-language" style="color: #d32f2f;"></i>
+                            </div>
+                            <div class="course-info">
+                                <h3 class="course-title">Spanish for Beginners</h3>
+                                <div class="course-details">
+                                    <span>20 Lessons</span>
+                                    <span>25% Complete</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 25%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Section -->
+                <div class="schedule-section">
+                    <div class="section-title">
+                        <h2>Today's Schedule</h2>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <div class="time-block">
+                                <div class="time">9:00</div>
+                                <div class="am-pm">AM</div>
+                            </div>
+                            <div class="schedule-details">
+                                <div class="schedule-course">Web Development</div>
+                                <div class="schedule-info">
+                                    <i class="fas fa-video"></i> Live Class
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="time-block">
+                                <div class="time">11:30</div>
+                                <div class="am-pm">AM</div>
+                            </div>
+                            <div class="schedule-details">
+                                <div class="schedule-course">Chemistry Lab</div>
+                                <div class="schedule-info">
+                                    <i class="fas fa-flask"></i> Practical Session
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="time-block">
+                                <div class="time">2:00</div>
+                                <div class="am-pm">PM</div>
+                            </div>
+                            <div class="schedule-details">
+                                <div class="schedule-course">Spanish Group Session</div>
+                                <div class="schedule-info">
+                                    <i class="fas fa-users"></i> Group Study
+                                </div>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="time-block">
+                                <div class="time">4:15</div>
+                                <div class="am-pm">PM</div>
+                            </div>
+                            <div class="schedule-details">
+                                <div class="schedule-course">Math Tutoring</div>
+                                <div class="schedule-info">
+                                    <i class="fas fa-chalkboard-teacher"></i> One-on-One
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments Section -->
+            <div class="assignments-section">
+                <div class="section-title">
+                    <h2>Upcoming Assignments</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="assignments-list">
+                    <div class="assignment-item">
+                        <div class="assignment-status pending"></div>
+                        <div class="assignment-info">
+                            <div class="assignment-title">JavaScript Functions Project</div>
+                            <div class="assignment-course">Web Development</div>
+                        </div>
+                        <div class="assignment-due">Due Tomorrow</div>
+                    </div>
+                    <div class="assignment-item">
+                        <div class="assignment-status completed"></div>
+                        <div class="assignment-info">
+                            <div class="assignment-title">Chemical Reactions Lab Report</div>
+                            <div class="assignment-course">Chemistry 101</div>
+                        </div>
+                        <div class="assignment-due">Completed</div>
+                    </div>
+                    <div class="assignment-item">
+                        <div class="assignment-status overdue"></div>
+                        <div class="assignment-info">
+                            <div class="assignment-title">Calculus Problem Set</div>
+                            <div class="assignment-course">Advanced Mathematics</div>
+                        </div>
+                        <div class="assignment-due">Overdue by 2 days</div>
+                    </div>
+                    <div class="assignment-item">
+                        <div class="assignment-status pending"></div>
+                        <div class="assignment-info">
+                            <div class="assignment-title">Vocabulary Quiz</div>
+                            <div class="assignment-course">Spanish for Beginners</div>
+                        </div>
+                        <div class="assignment-due">Due in 3 days</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2025 SkillSprint. All rights reserved.</p>
-    </footer>
 </body>
 </html>
