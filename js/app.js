@@ -1,4 +1,3 @@
-
 const challenges = [
     {
         id: 1,
@@ -10,7 +9,8 @@ const challenges = [
         solves: 5234,
         completionRate: "87%",
         isSolved: false,
-        isBookmarked: true
+        isBookmarked: true,
+        isJoined: false
     },
     {
         id: 2,
@@ -22,7 +22,8 @@ const challenges = [
         solves: 3721,
         completionRate: "62%",
         isSolved: true,
-        isBookmarked: false
+        isBookmarked: false,
+        isJoined: false
     },
     {
         id: 3,
@@ -34,7 +35,8 @@ const challenges = [
         solves: 1874,
         completionRate: "41%",
         isSolved: false,
-        isBookmarked: false
+        isBookmarked: false,
+        isJoined: false
     },
     {
         id: 4,
@@ -46,7 +48,8 @@ const challenges = [
         solves: 6543,
         completionRate: "91%",
         isSolved: true,
-        isBookmarked: true
+        isBookmarked: true,
+        isJoined: false
     },
     {
         id: 5,
@@ -58,7 +61,8 @@ const challenges = [
         solves: 2945,
         completionRate: "54%",
         isSolved: false,
-        isBookmarked: false
+        isBookmarked: false,
+        isJoined: false
     },
     {
         id: 6,
@@ -70,7 +74,8 @@ const challenges = [
         solves: 3156,
         completionRate: "76%",
         isSolved: false,
-        isBookmarked: true
+        isBookmarked: true,
+        isJoined: false
     },
     {
         id: 7,
@@ -82,7 +87,8 @@ const challenges = [
         solves: 2874,
         completionRate: "68%",
         isSolved: false,
-        isBookmarked: false
+        isBookmarked: false,
+        isJoined: false
     },
     {
         id: 8,
@@ -94,7 +100,8 @@ const challenges = [
         solves: 1542,
         completionRate: "47%",
         isSolved: false,
-        isBookmarked: false
+        isBookmarked: false,
+        isJoined: false
     },
     {
         id: 9,
@@ -107,7 +114,8 @@ const challenges = [
         completionRate: "59%",
         isSolved: false,
         isBookmarked: false,
-        isAssigned: true
+        isAssigned: true,
+        isJoined: false
     }
 ];
 
@@ -118,20 +126,57 @@ const showBookmarkedCheckbox = document.getElementById('show-bookmarked');
 const showAssignedCheckbox = document.getElementById('show-assigned');
 const difficultyItems = document.querySelectorAll('.difficulty-item');
 const categoryItems = document.querySelectorAll('.category-item');
+const joinChallengeBtn = document.getElementById('joinChallengeBtn');
 
 let filters = {
     search: '',
     hideSolved: false,
     showBookmarked: false,
     showAssigned: false,
+    showJoined: false,
     difficulty: 'All Difficulties',
     category: 'All Categories'
 };
 
 // Initialize page
 function init() {
+    loadJoinedChallenges();
     renderChallenges();
     setupEventListeners();
+}
+
+// Load joined challenges from localStorage
+function loadJoinedChallenges() {
+    const savedJoinedChallenges = localStorage.getItem('joinedChallenges');
+    if (savedJoinedChallenges) {
+        const joinedIds = JSON.parse(savedJoinedChallenges);
+        
+        // Update the challenges array with the joined status
+        challenges.forEach(challenge => {
+            if (joinedIds.includes(challenge.id)) {
+                challenge.isJoined = true;
+            }
+        });
+    }
+}
+
+// Save joined challenges to localStorage
+function saveJoinedChallenges() {
+    const joinedIds = challenges
+        .filter(challenge => challenge.isJoined)
+        .map(challenge => challenge.id);
+    
+    localStorage.setItem('joinedChallenges', JSON.stringify(joinedIds));
+}
+
+// Toggle join status for a challenge
+function toggleJoinChallenge(challengeId) {
+    const challenge = challenges.find(c => c.id === challengeId);
+    if (challenge) {
+        challenge.isJoined = !challenge.isJoined;
+        saveJoinedChallenges();
+        renderChallenges();
+    }
 }
 
 // Render challenges based on current filters
@@ -178,11 +223,13 @@ function renderChallenges() {
     filteredChallenges.forEach(challenge => {
         const challengeCard = document.createElement('div');
         challengeCard.className = 'challenge-card';
+        challengeCard.dataset.id = challenge.id;
         
         // Add additional classes if needed
         if (challenge.isSolved) challengeCard.classList.add('solved');
         if (challenge.isBookmarked) challengeCard.classList.add('bookmarked');
         if (challenge.isAssigned) challengeCard.classList.add('assigned');
+        if (challenge.isJoined) challengeCard.classList.add('joined');
         
         // Set difficulty class for styling
         const difficultyClass = challenge.difficulty.toLowerCase();
@@ -201,11 +248,24 @@ function renderChallenges() {
                 <div class="solve-count">${challenge.solves.toLocaleString()} solves</div>
                 <div class="solve-percentage">${challenge.completionRate} 👍</div>
             </div>
+            <div class="challenge-actions">
+                <button class="join-button ${challenge.isJoined ? 'joined' : ''}" data-id="${challenge.id}">
+                    ${challenge.isJoined ? 'Leave Challenge' : 'Join Challenge'}
+                </button>
+            </div>
         `;
         
         challengeGrid.appendChild(challengeCard);
     });
     
+    // Add event listeners to join buttons
+    document.querySelectorAll('.join-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const challengeId = parseInt(button.dataset.id);
+            toggleJoinChallenge(challengeId);
+        });
+    });
 
     if (filteredChallenges.length === 0) {
         challengeGrid.innerHTML = '<div class="no-results">No challenges match your filters</div>';
@@ -265,6 +325,86 @@ function setupEventListeners() {
             renderChallenges();
         });
     });
+
+    // Global Join Challenge button (optional - can be used to navigate to joined challenges view)
+    if (joinChallengeBtn) {
+        joinChallengeBtn.addEventListener('click', () => {
+            // Example: Toggle showing only joined challenges
+            filters.showJoined = !filters.showJoined;
+            
+            if (filters.showJoined) {
+                joinChallengeBtn.textContent = "Show All Challenges";
+                // Only show joined challenges
+                renderJoinedChallengesOnly();
+            } else {
+                joinChallengeBtn.textContent = "Show Joined Challenges";
+                renderChallenges();
+            }
+        });
+    }
+}
+
+// Function to render only joined challenges
+function renderJoinedChallengesOnly() {
+    challengeGrid.innerHTML = '';
+    
+    const joinedChallenges = challenges.filter(challenge => challenge.isJoined);
+    
+    if (joinedChallenges.length === 0) {
+        challengeGrid.innerHTML = '<div class="no-results">You haven\'t joined any challenges yet!</div>';
+        return;
+    }
+    
+    joinedChallenges.forEach(challenge => {
+        const challengeCard = document.createElement('div');
+        challengeCard.className = 'challenge-card joined';
+        challengeCard.dataset.id = challenge.id;
+        
+        // Add additional classes if needed
+        if (challenge.isSolved) challengeCard.classList.add('solved');
+        if (challenge.isBookmarked) challengeCard.classList.add('bookmarked');
+        if (challenge.isAssigned) challengeCard.classList.add('assigned');
+        
+        // Set difficulty class for styling
+        const difficultyClass = challenge.difficulty.toLowerCase();
+        
+        // Create card content
+        challengeCard.innerHTML = `
+            <div class="challenge-header">
+                <div class="challenge-category">${challenge.category}</div>
+                <div class="difficulty-badge ${difficultyClass}">${challenge.difficulty}</div>
+            </div>
+            <div class="challenge-body">
+                <h3 class="challenge-title">${challenge.title}</h3>
+                <p class="challenge-description">${challenge.description}</p>
+            </div>
+            <div class="challenge-stats">
+                <div class="solve-count">${challenge.solves.toLocaleString()} solves</div>
+                <div class="solve-percentage">${challenge.completionRate} 👍</div>
+            </div>
+            <div class="challenge-actions">
+                <button class="join-button joined" data-id="${challenge.id}">
+                    Leave Challenge
+                </button>
+            </div>
+        `;
+        
+        challengeGrid.appendChild(challengeCard);
+    });
+    
+    // Add event listeners to join buttons
+    document.querySelectorAll('.join-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const challengeId = parseInt(button.dataset.id);
+            toggleJoinChallenge(challengeId);
+            
+            // If we're in joined challenges view, remove the card
+            if (filters.showJoined) {
+                renderJoinedChallengesOnly();
+            }
+        });
+    });
 }
 
 // Apply different colors to difficulty badges
@@ -298,6 +438,32 @@ function applyDifficultyStyles() {
             top: 10px;
             left: 10px;
             font-size: 16px;
+        }
+        .challenge-card.joined {
+            border: 2px solid #4285f4;
+            box-shadow: 0 0 8px rgba(66, 133, 244, 0.4);
+        }
+        .join-button {
+            padding: 8px 12px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .join-button:hover {
+            background-color: #3367d6;
+        }
+        .join-button.joined {
+            background-color: #f44336;
+        }
+        .join-button.joined:hover {
+            background-color: #d32f2f;
+        }
+        .challenge-actions {
+            margin-top: 12px;
+            text-align: right;
         }
         .no-results {
             grid-column: 1 / -1;
