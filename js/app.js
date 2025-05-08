@@ -272,15 +272,14 @@ function renderChallenges() {
     }
 }
 
-// Set up event listeners
 function setupEventListeners() {
-    // Search input
+  
     searchInput.addEventListener('input', (e) => {
         filters.search = e.target.value;
         renderChallenges();
     });
     
-    // Checkbox filters
+
     hideSolvedCheckbox.addEventListener('change', (e) => {
         filters.hideSolved = e.target.checked;
         renderChallenges();
@@ -326,7 +325,7 @@ function setupEventListeners() {
         });
     });
 
-    // Global Join Challenge button (optional - can be used to navigate to joined challenges view)
+
     if (joinChallengeBtn) {
         joinChallengeBtn.addEventListener('click', () => {
             // Example: Toggle showing only joined challenges
@@ -344,7 +343,6 @@ function setupEventListeners() {
     }
 }
 
-// Function to render only joined challenges
 function renderJoinedChallengesOnly() {
     challengeGrid.innerHTML = '';
     
@@ -365,7 +363,7 @@ function renderJoinedChallengesOnly() {
         if (challenge.isBookmarked) challengeCard.classList.add('bookmarked');
         if (challenge.isAssigned) challengeCard.classList.add('assigned');
         
-        // Set difficulty class for styling
+    
         const difficultyClass = challenge.difficulty.toLowerCase();
         
         // Create card content
@@ -476,7 +474,6 @@ function applyDifficultyStyles() {
     document.head.appendChild(style);
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     applyDifficultyStyles();
     init();
